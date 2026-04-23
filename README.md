@@ -107,3 +107,21 @@ The following features can be added to improve the project further:
 - Implement pagination for large datasets  
 - Improves performance and response time  
 - Example: fetching items page-wise instead of all at once  
+
+
+---
+
+##  Screenshots
+
+### 🔹 Add Item (POST API)
+![Add Item](images/add-item.png)
+
+---
+
+### 🔹 Get All Items (GET API)
+![Get Items](images/get-items.png)
+
+---
+
+### 🔹 Claim Item (PUT API)
+![Claim Item](images/claim-item.png)
