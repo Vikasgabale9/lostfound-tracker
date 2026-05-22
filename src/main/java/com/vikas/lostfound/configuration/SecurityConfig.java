@@ -24,7 +24,7 @@ public class SecurityConfig {
 
             // Disable CSRF only for H2 console
             .csrf(csrf -> csrf
-                    .ignoringRequestMatchers("/h2-console/**")
+                    .disable()
             )
 
             // Authorization rules
