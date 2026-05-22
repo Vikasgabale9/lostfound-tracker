@@ -21,9 +21,15 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            .csrf(c -> c.disable())
 
+            // Disable CSRF only for H2 console
+            .csrf(csrf -> csrf
+                    .ignoringRequestMatchers("/h2-console/**")
+            )
+
+            // Authorization rules
             .authorizeHttpRequests(auth -> auth
+
                     .requestMatchers(
                             "/auth/register",
                             "/auth/login",
@@ -31,12 +37,17 @@ public class SecurityConfig {
                             "/swagger-ui/**",
                             "/v3/api-docs/**"
                     ).permitAll()
+
                     .anyRequest()
                     .authenticated()
             )
 
-            .headers(h -> h.frameOptions(f -> f.disable()))
+            // Allow H2 console frames
+            .headers(headers -> headers
+                    .frameOptions(frame -> frame.sameOrigin())
+            )
 
+            // Enable basic authentication
             .httpBasic(Customizer.withDefaults());
 
         return http.build();
@@ -54,8 +65,6 @@ public class SecurityConfig {
 
         DaoAuthenticationProvider dap =
                 new DaoAuthenticationProvider(uds);
-
-      
 
         dap.setPasswordEncoder(pe);
 
