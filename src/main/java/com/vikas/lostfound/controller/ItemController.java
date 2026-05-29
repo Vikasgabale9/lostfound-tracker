@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,18 +29,21 @@ public class ItemController {
     private ItemService service;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ITEM_CREATE')")
     public ItemDTO create(@Valid @RequestBody ItemDTO dto) {
         return service.addItem(dto);
     }
 
     
     @PostMapping("/bulk")
+    @PreAuthorize("hasAuthority('ITEM_BULK_CREATE')")
     public List<ItemDTO> createAll( @RequestBody List<@Valid ItemDTO> dto) {
         return service.addItem(dto);
     }
 
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ITEM_READ')")
     public Page<ItemDTO> getAll(
     		@RequestParam(defaultValue="0") int page
     	   ,@RequestParam(defaultValue="5") int size
@@ -49,22 +53,26 @@ public class ItemController {
 
     
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ITEM_READ')")
     public ItemDTO update(@PathVariable Long id, @RequestBody ItemDTO dto) throws ResourceNotFoundException {
         return service.updateItem(id, dto);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ITEM_DELETE')")
     public String delete(@PathVariable Long id) throws ResourceNotFoundException {
         service.deleteItem(id);
         return "Deleted successfully";
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasAuthority('ITEM_SEARCH')")
     public List<ItemDTO> search(@RequestParam String location) throws ResourceNotFoundException {
         return service.searchByLocation(location);
     }
 
     @PutMapping("/{id}/claim")
+    @PreAuthorize("hasAuthority('ITEM_CLAIM')")
     public ItemDTO claim(@PathVariable Long id) throws ResourceNotFoundException {
         return service.markAsClaimed(id);
     }

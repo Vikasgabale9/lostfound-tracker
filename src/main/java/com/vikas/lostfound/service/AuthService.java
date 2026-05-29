@@ -9,7 +9,6 @@ import com.vikas.lostfound.dto.LoginDto;
 import com.vikas.lostfound.dto.RegisterDto;
 import com.vikas.lostfound.dto.ResponseDto;
 import com.vikas.lostfound.entity.AppUser;
-import com.vikas.lostfound.enums.Role;
 import com.vikas.lostfound.exception.UsernameAlreadyExistsException;
 import com.vikas.lostfound.repository.AppUserRepository;
 
@@ -74,7 +73,7 @@ public class AuthService {
 
         user.setUsername(req.getUsername());
 
-        user.setRole(Role.ROLE_USER);
+        user.setRole(req.getRole());
 
         return user;
     }

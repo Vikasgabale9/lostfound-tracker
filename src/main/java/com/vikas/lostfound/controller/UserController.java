@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,7 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('USER_READ_ALL')")
     public ResponseEntity<List<ResponseDto>> getAllUsers() {
 
         return ResponseEntity.ok(
@@ -35,6 +37,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER_READ')")
     public ResponseEntity<ResponseDto> getUser(
             @PathVariable Long id) throws UsernameNotFoundException {
 
@@ -43,6 +46,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER_UPDATE')")
     public ResponseEntity<String> updateUser(
             @PathVariable Long id,
             @RequestBody RegisterDto dto) throws UsernameNotFoundException {
@@ -51,6 +55,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER_DELETE')")
     public ResponseEntity<String> deleteUser(
             @PathVariable Long id) {
 

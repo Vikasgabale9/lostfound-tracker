@@ -1,5 +1,7 @@
 package com.vikas.lostfound.dto;
 
+import com.vikas.lostfound.enums.Role;
+
 import jakarta.persistence.Column;
 import lombok.Data;
 
@@ -12,6 +14,9 @@ public class RegisterDto {
     @Column(nullable = false)
     private String email;
 
- @Column(nullable = false)
+    @Column(nullable = false)
     private String password;
+ 
+    @Column(nullable = false)
+    private Role role;
 }

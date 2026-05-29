@@ -1,7 +1,8 @@
 package com.vikas.lostfound.entity;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -63,9 +64,19 @@ public class AppUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(
-            new SimpleGrantedAuthority(role.name())
+
+        Set<SimpleGrantedAuthority> authorities =
+                role.getPermissions()
+                        .stream()
+                        .map(permission ->
+                                new SimpleGrantedAuthority(permission.name()))
+                        .collect(Collectors.toSet());
+
+        authorities.add(
+                new SimpleGrantedAuthority("ROLE_" + role.name())
         );
+
+        return authorities;
     }
 
     @Override
